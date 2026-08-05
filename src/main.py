@@ -1,12 +1,19 @@
-from clients.nse_client import NSEClient
+from src.services.analytics_service import AnalyticsService
+from src.reports.market_report import MarketReport
 
-client = NSEClient()
 
-print("===== TOP GAINERS =====")
-print(client.get_top_gainers())
+def main():
+    analytics = AnalyticsService()
 
-print("\n===== TOP LOSERS =====")
-print(client.get_top_losers())
+    # Fetch data
+    major_indices = analytics.get_major_indices()
+    overview = analytics.market_overview()
+    breadth = analytics.market_breadth()
 
-print("\n===== ALL INDICES =====")
-print(client.get_all_indices())
+    # Print report
+    MarketReport.print_major_indices(major_indices)
+    MarketReport.print_overview(overview, breadth)
+
+
+if __name__ == "__main__":
+    main()
